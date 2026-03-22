@@ -28,9 +28,9 @@ Giải quyết bài toán trong việc quản lý hàng ngàn sinh viên của c
 
 ## 📸 Hình ảnh giao diện (Screenshots)
 
-| Dashboard Quản trị viên (Admin) | Dashboard Sinh viên (Personalized) |
+| Dashboard Quản trị viên (Admin) | Dashboard Sinh viên |
 | :---: | :---: |
-| <img src="[docs/Dashboard AD.jpg]" width="400"/> | <img src="[docs/Dashboard Sinh viên.jpg]" width="400"/> |
+| <img src="https://raw.githubusercontent.com/hngnghi/DACN_HN/main/docs/Dashboard%20AD.jpg" alt="Dashboard AD" width="450"/> | <img src="https://raw.githubusercontent.com/hngnghi/DACN_HN/main/docs/Dashboard%20Sinh%20viên.jpg" alt="Dashboard Sinh viên" width="450"/> |
 | *Insight Cards & Phân tích phổ điểm* | *Xu hướng GPA & Trợ lý ảo AI dự báo* |
 
 ## 🚀 Hướng dẫn cài đặt (Getting Started)
