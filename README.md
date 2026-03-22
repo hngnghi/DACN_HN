@@ -30,7 +30,7 @@ Giải quyết bài toán trong việc quản lý hàng ngàn sinh viên của c
 
 | Dashboard Quản trị viên (Admin) | Dashboard Sinh viên (Personalized) |
 | :---: | :---: |
-| <img src="[Link-ảnh-dashboard-admin]" width="400"/> | <img src="[Link-ảnh-dashboard-sinh-vien]" width="400"/> |
+| <img src="[docs/Dashboard AD.jpg/> | <img src="[docs/Dashboard Sinh viên.jpg]" width="400"/> |
 | *Insight Cards & Phân tích phổ điểm* | *Xu hướng GPA & Trợ lý ảo AI dự báo* |
 
 ## 🚀 Hướng dẫn cài đặt (Getting Started)
