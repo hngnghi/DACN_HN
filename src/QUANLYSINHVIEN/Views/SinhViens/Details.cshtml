@@ -1,0 +1,101 @@
+﻿@model QUANLYSINHVIEN.Models.SinhVien
+
+@{
+    ViewData["Title"] = "Chi tiết Sinh viên";
+}
+
+<div class="mb-6">
+    <h1 class="text-3xl font-bold text-gray-900">Chi tiết Sinh viên</h1>
+    <p class="text-gray-600 mt-2">Thông tin chi tiết về sinh viên</p>
+</div>
+
+<div class="bg-white rounded-lg shadow-md p-6">
+    <dl class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div class="border-b border-gray-200 pb-4">
+            <dt class="text-sm font-medium text-gray-500 mb-1">
+                @Html.DisplayNameFor(model => model.HoTen)
+            </dt>
+            <dd class="text-lg font-semibold text-gray-900">
+                @Html.DisplayFor(model => model.HoTen)
+            </dd>
+        </div>
+        <div class="border-b border-gray-200 pb-4">
+            <dt class="text-sm font-medium text-gray-500 mb-1">
+                @Html.DisplayNameFor(model => model.MaSv)
+            </dt>
+            <dd class="text-lg text-gray-900">
+                @Html.DisplayFor(model => model.MaSv)
+            </dd>
+        </div>
+        <div class="border-b border-gray-200 pb-4">
+            <dt class="text-sm font-medium text-gray-500 mb-1">
+                @Html.DisplayNameFor(model => model.NgaySinh)
+            </dt>
+            <dd class="text-lg text-gray-900">
+                @Html.DisplayFor(model => model.NgaySinh)
+            </dd>
+        </div>
+        <div class="border-b border-gray-200 pb-4">
+            <dt class="text-sm font-medium text-gray-500 mb-1">
+                @Html.DisplayNameFor(model => model.GioiTinh)
+            </dt>
+            <dd class="text-lg text-gray-900">
+                @Html.DisplayFor(model => model.GioiTinh)
+            </dd>
+        </div>
+        <div class="border-b border-gray-200 pb-4">
+            <dt class="text-sm font-medium text-gray-500 mb-1">
+                @Html.DisplayNameFor(model => model.DiaChi)
+            </dt>
+            <dd class="text-lg text-gray-900">
+                @Html.DisplayFor(model => model.DiaChi)
+            </dd>
+        </div>
+        <div class="border-b border-gray-200 pb-4">
+            <dt class="text-sm font-medium text-gray-500 mb-1">
+                @Html.DisplayNameFor(model => model.Email)
+            </dt>
+            <dd class="text-lg text-gray-900">
+                @Html.DisplayFor(model => model.Email)
+            </dd>
+        </div>
+        <div class="border-b border-gray-200 pb-4">
+            <dt class="text-sm font-medium text-gray-500 mb-1">
+                @Html.DisplayNameFor(model => model.DiemTrungBinh)
+            </dt>
+            <dd class="text-lg font-semibold text-blue-600">
+                @Html.DisplayFor(model => model.DiemTrungBinh)
+            </dd>
+        </div>
+        <div class="border-b border-gray-200 pb-4">
+            <dt class="text-sm font-medium text-gray-500 mb-1">
+                @Html.DisplayNameFor(model => model.TrangThaiHocTap)
+            </dt>
+            <dd class="text-lg">
+                <span class="px-3 py-1 inline-flex text-sm leading-5 font-semibold rounded-full 
+                    @(Model.TrangThaiHocTap == "Đang học" ? "bg-green-100 text-green-800" : 
+                      Model.TrangThaiHocTap == "Tốt nghiệp" ? "bg-blue-100 text-blue-800" : 
+                      "bg-red-100 text-red-800")">
+                    @Html.DisplayFor(model => model.TrangThaiHocTap)
+                </span>
+            </dd>
+        </div>
+        <div class="border-b border-gray-200 pb-4">
+            <dt class="text-sm font-medium text-gray-500 mb-1">
+                @Html.DisplayNameFor(model => model.MaLopNavigation)
+            </dt>
+            <dd class="text-lg text-gray-900">
+                @Html.DisplayFor(model => model.MaLopNavigation.MaLop)
+            </dd>
+        </div>
+    </dl>
+
+    <div class="flex items-center space-x-4 pt-6 mt-6 border-t border-gray-200">
+        <a asp-action="Edit" asp-route-id="@Model?.MaSv" class="inline-flex items-center px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors shadow-md hover:shadow-lg">
+            <i class="fa-solid fa-edit mr-2"></i>Chỉnh sửa
+        </a>
+        <a asp-action="Index" class="inline-flex items-center px-6 py-3 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 transition-colors">
+            <i class="fa-solid fa-arrow-left mr-2"></i>Quay lại danh sách
+        </a>
+    </div>
+</div>

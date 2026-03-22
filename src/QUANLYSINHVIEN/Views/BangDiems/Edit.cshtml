@@ -1,0 +1,80 @@
+﻿@model QUANLYSINHVIEN.Models.BangDiem
+
+@{
+    ViewData["Title"] = "Chỉnh sửa Bảng Điểm";
+}
+
+<div class="mb-6">
+    <h1 class="text-3xl font-bold text-gray-900">Chỉnh sửa Bảng Điểm</h1>
+    <p class="text-gray-600 mt-2">Cập nhật thông tin điểm số</p>
+</div>
+
+<div class="bg-white rounded-lg shadow-md p-6">
+    <form asp-action="Edit" class="space-y-6">
+        <div asp-validation-summary="ModelOnly" class="text-red-600 bg-red-50 border border-red-200 rounded-lg p-4"></div>
+        <input type="hidden" asp-for="MaBd" />
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div>
+                <label asp-for="MaSv" class="block text-sm font-medium text-gray-700 mb-2"></label>
+                <select asp-for="MaSv" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors" asp-items="ViewBag.MaSv">
+                    <option value="">-- Chọn sinh viên --</option>
+                </select>
+                <span asp-validation-for="MaSv" class="text-red-600 text-sm"></span>
+            </div>
+            <div>
+                <label asp-for="MaMh" class="block text-sm font-medium text-gray-700 mb-2"></label>
+                <select asp-for="MaMh" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors" asp-items="ViewBag.MaMh">
+                    <option value="">-- Chọn môn học --</option>
+                </select>
+                <span asp-validation-for="MaMh" class="text-red-600 text-sm"></span>
+            </div>
+            <div>
+                <label asp-for="MaHk" class="block text-sm font-medium text-gray-700 mb-2"></label>
+                <select asp-for="MaHk" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors" asp-items="ViewBag.MaHk">
+                    <option value="">-- Chọn học kỳ --</option>
+                </select>
+                <span asp-validation-for="MaHk" class="text-red-600 text-sm"></span>
+            </div>
+            <div>
+                <label asp-for="DiemQt" class="block text-sm font-medium text-gray-700 mb-2"></label>
+                <input asp-for="DiemQt" type="number" step="0.01" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors" />
+                <span asp-validation-for="DiemQt" class="text-red-600 text-sm"></span>
+            </div>
+            <div>
+                <label asp-for="DiemThi" class="block text-sm font-medium text-gray-700 mb-2"></label>
+                <input asp-for="DiemThi" type="number" step="0.01" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors" />
+                <span asp-validation-for="DiemThi" class="text-red-600 text-sm"></span>
+            </div>
+            <div>
+                <label asp-for="DiemTb" class="block text-sm font-medium text-gray-700 mb-2"></label>
+                <input asp-for="DiemTb" type="number" step="0.01" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors" />
+                <span asp-validation-for="DiemTb" class="text-red-600 text-sm"></span>
+            </div>
+            <div>
+                <label asp-for="XepLoai" class="block text-sm font-medium text-gray-700 mb-2"></label>
+                <select asp-for="XepLoai" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors">
+                    <option value="">-- Chọn xếp loại --</option>
+                    <option value="Giỏi">Giỏi</option>
+                    <option value="Khá">Khá</option>
+                    <option value="Trung bình">Trung bình</option>
+                    <option value="Yếu">Yếu</option>
+                </select>
+                <span asp-validation-for="XepLoai" class="text-red-600 text-sm"></span>
+            </div>
+        </div>
+
+        <div class="flex items-center space-x-4 pt-4 border-t border-gray-200">
+            <button type="submit" class="inline-flex items-center px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors shadow-md hover:shadow-lg">
+                <i class="fa-solid fa-save mr-2"></i>Lưu thay đổi
+            </button>
+            <a asp-action="Index" class="inline-flex items-center px-6 py-3 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 transition-colors">
+                <i class="fa-solid fa-arrow-left mr-2"></i>Quay lại danh sách
+            </a>
+        </div>
+    </form>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

@@ -1,0 +1,441 @@
+﻿@model IEnumerable<QUANLYSINHVIEN.Models.BangDiem>
+@using Microsoft.AspNetCore.Http
+@inject IHttpContextAccessor HttpContextAccessor
+
+@{
+    ViewData["Title"] = ViewBag.TitleHeader;
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var userRole = HttpContextAccessor.HttpContext.Session.GetString("Role");
+}
+
+<style>
+    body {
+        background-color: #f8f9fc;
+        font-family: 'Nunito', sans-serif;
+    }
+
+    /* Card Styles */
+    .card {
+        border: none;
+        border-radius: 0.75rem;
+        box-shadow: 0 0.15rem 1.75rem 0 rgba(58, 59, 69, 0.15);
+        transition: all 0.3s ease;
+    }
+
+    .hover-lift:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 1rem 3rem rgba(0,0,0,.175) !important;
+    }
+
+    /* Border Colors */
+    .border-left-primary {
+        border-left: 0.25rem solid #4e73df !important;
+    }
+
+    .border-left-success {
+        border-left: 0.25rem solid #1cc88a !important;
+    }
+
+    .border-left-info {
+        border-left: 0.25rem solid #36b9cc !important;
+    }
+
+    .border-left-warning {
+        border-left: 0.25rem solid #f6c23e !important;
+    }
+
+    .border-left-danger {
+        border-left: 0.25rem solid #e74a3b !important;
+    }
+
+    /* Custom Elements */
+    .badge-pill-custom {
+        padding: 0.5em 1em;
+        border-radius: 50rem;
+        font-weight: 700;
+        font-size: 85%;
+    }
+
+    .filter-label {
+        font-size: 0.8rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        color: #b7b9cc;
+    }
+
+    .btn-circle {
+        width: 30px;
+        height: 30px;
+        padding: 6px 0px;
+        border-radius: 15px;
+        text-align: center;
+        font-size: 12px;
+        line-height: 1.42857;
+    }
+</style>
+
+<div class="container-fluid mb-5">
+    <div class="d-sm-flex align-items-center justify-content-between mb-4 mt-4">
+        <h1 class="h3 mb-0 text-gray-800 font-weight-bold">@ViewBag.TitleHeader</h1>
+        <div>
+            @if (userRole != "SinhVien")
+            {
+                <a href="/ThongKeBis/AIMetrics" class="d-none d-sm-inline-block btn btn-sm btn-info shadow-sm mr-2">
+                    <i class="fas fa-brain fa-sm text-white-50"></i> Xem Metric AI
+                </a>
+            }
+            <span class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm">
+                <i class="fas fa-calendar fa-sm text-white-50"></i> Năm học 2024-2025
+            </span>
+        </div>
+    </div>
+
+    @if (userRole == "SinhVien")
+    {
+        /* ==================== GIAO DIỆN SINH VIÊN (GIỮ NGUYÊN) ==================== */
+        <div class="row">
+            <div class="col-xl-3 col-md-6 mb-4">
+                <div class="card border-left-primary shadow h-100 py-2 hover-lift">
+                    <div class="card-body">
+                        <div class="row no-gutters align-items-center">
+                            <div class="col mr-2">
+                                <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Xu hướng GPA</div>
+                                <div class="h5 mb-0 font-weight-bold text-gray-800">
+                                    @{
+                                        double xuHuong = ViewBag.XuHuong != null ? (double)ViewBag.XuHuong : 0;
+                                    }
+                                    @if (xuHuong >= 0)
+                                    {
+                                        <span class="text-success"><i class="fas fa-arrow-up"></i> Tăng @xuHuong</span>
+                                    }
+                                    else
+                                    {
+                                        <span class="text-danger"><i class="fas fa-arrow-down"></i> Tụt @Math.Abs(xuHuong)</span>
+                                    }
+                                </div>
+                            </div>
+                            <div class="col-auto"><i class="fas fa-chart-line fa-2x text-gray-300"></i></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-xl-3 col-md-6 mb-4">
+                <div class="card @(ViewBag.DuBao == "Nguy cơ Rớt" ? "border-left-danger" : "border-left-success") shadow h-100 py-2 hover-lift">
+                    <div class="card-body">
+                        <div class="row no-gutters align-items-center">
+                            <div class="col mr-2">
+                                <div class="text-xs font-weight-bold text-uppercase mb-1">AI Dự báo</div>
+                                <div class="h5 mb-0 font-weight-bold">
+                                    @if (ViewBag.DuBao == "Nguy cơ Rớt")
+                                    {
+                                        <span class="text-danger">⚠️ Nguy cơ Rớt</span>
+                                    }
+                                    else
+                                    {
+                                        <span class="text-success">✅ @ViewBag.DuBao</span>
+                                    }
+                                </div>
+                            </div>
+                            <div class="col-auto"><i class="fas fa-robot fa-2x text-gray-300"></i></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-xl-6 col-md-12 mb-4">
+                <div class="card @ViewBag.CardBorder shadow h-100 py-2">
+                    <div class="card-body">
+                        <div class="row no-gutters align-items-center">
+                            <div class="col mr-2">
+                                <div class="text-xs font-weight-bold text-uppercase mb-1 @ViewBag.MsgColor">Trợ lý nhắn nhủ</div>
+                                <div class="h5 mb-0 font-weight-bold text-gray-800">@ViewBag.MotivationTitle</div>
+                                <small>@ViewBag.MotivationMsg</small>
+                            </div>
+                            <div class="col-auto"><i class="fas fa-comment-dots fa-2x text-gray-300"></i></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row mb-4">
+            <div class="col-lg-12">
+                <div class="card shadow mb-4">
+                    <div class="card-header py-3"><h6 class="m-0 font-weight-bold text-primary">So sánh năng lực (Benchmark)</h6></div>
+                    <div class="card-body">
+                        <div class="chart-bar" style="height: 300px;"><canvas id="myComparisonChart"></canvas></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+    else
+    {
+        /* ==================== GIAO DIỆN ADMIN (SỬA LỖI RZ1031 TẠI ĐÂY) ==================== */
+
+        <div class="card mb-4 border-left-info shadow-sm h-100 py-2">
+            <div class="card-body py-2">
+                <form method="get" action="/ThongKeBis/Index">
+                    <div class="row align-items-center">
+
+                        <div class="col-md-5 mb-2 mb-md-0">
+                            <span class="filter-label"><i class="fas fa-filter mr-1"></i> Phạm vi dữ liệu:</span>
+                            <span class="badge badge-info px-2 py-1 ml-2 text-white shadow-sm" style="font-size: 0.9rem;">
+                                @(ViewBag.CurrentFilter ?? "Toàn trường")
+                            </span>
+
+                            @if (ViewBag.IsDrillDown == true)
+                            {
+                                <a href="/ThongKeBis/Index" class="btn btn-circle btn-danger ml-2 shadow-sm" title="Xóa bộ lọc (Reset)">
+                                    <i class="fas fa-times"></i>
+                                </a>
+                            }
+                        </div>
+
+                        <div class="col-md-7">
+                            <div class="form-row justify-content-end">
+                                <div class="col-auto">
+                                    <select name="maKhoa" class="custom-select custom-select-sm shadow-none border-0 bg-light font-weight-bold text-primary" onchange="this.form.submit()">
+                                        <option value="">-- 🏢 Tất cả Khoa --</option>
+                                        @if (ViewBag.ListKhoa != null)
+                                        {
+                                            foreach (var k in ViewBag.ListKhoa)
+                                            {
+                                                if (Context.Request.Query["maKhoa"] == k.MaKhoa.ToString())
+                                                {
+                                                    <option value="@k.MaKhoa" selected>@k.TenKhoa</option>
+                                                }
+                                                else
+                                                {
+                                                    <option value="@k.MaKhoa">@k.TenKhoa</option>
+                                                }
+                                            }
+                                        }
+                                    </select>
+                                </div>
+                                <div class="col-auto">
+                                    <select name="maLop" class="custom-select custom-select-sm shadow-none border-0 bg-light font-weight-bold text-success" onchange="this.form.submit()">
+                                        <option value="">-- 🏫 Tất cả Lớp --</option>
+                                        @if (ViewBag.ListLop != null)
+                                        {
+                                            foreach (var l in ViewBag.ListLop)
+                                            {
+                                                if (Context.Request.Query["maLop"] == l.MaLop.ToString())
+                                                {
+                                                    <option value="@l.MaLop" selected>@l.MaLop</option>
+                                                }
+                                                else
+                                                {
+                                                    <option value="@l.MaLop">@l.MaLop</option>
+                                                }
+                                            }
+                                        }
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-xl-4 col-md-6 mb-4">
+                <div class="card border-left-danger shadow h-100 py-2 hover-lift">
+                    <div class="card-body">
+                        <div class="row no-gutters align-items-center">
+                            <div class="col mr-2">
+                                <div class="text-xs font-weight-bold text-danger text-uppercase mb-1">SV Cảnh báo (GPA &lt; 5)</div>
+                                <div class="h5 mb-0 font-weight-bold text-gray-800">@ViewBag.SvCanhBao Sinh viên</div>
+                            </div>
+                            <div class="col-auto"><i class="fas fa-bell fa-2x text-gray-300"></i></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-4 col-md-6 mb-4">
+                <div class="card border-left-warning shadow h-100 py-2 hover-lift">
+                    <div class="card-body">
+                        <div class="row no-gutters align-items-center">
+                            <div class="col mr-2">
+                                <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">Môn rủi ro cao nhất</div>
+                                <div class="h5 mb-0 font-weight-bold text-gray-800">@ViewBag.MonRotNhieu</div>
+                            </div>
+                            <div class="col-auto"><i class="fas fa-exclamation-circle fa-2x text-gray-300"></i></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-4 col-md-6 mb-4">
+                <div class="card border-left-success shadow h-100 py-2 hover-lift">
+                    <div class="card-body">
+                        <div class="row no-gutters align-items-center">
+                            <div class="col mr-2">
+                                <div class="text-xs font-weight-bold text-success text-uppercase mb-1">Lớp xuất sắc nhất</div>
+                                <div class="h5 mb-0 font-weight-bold text-gray-800">@ViewBag.LopGioiNhat</div>
+                            </div>
+                            <div class="col-auto"><i class="fas fa-trophy fa-2x text-gray-300"></i></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+
+    <div class="row">
+        <div class="col-xl-4 col-lg-5">
+            <div class="card shadow mb-4">
+                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                    <h6 class="m-0 font-weight-bold text-primary">Tỷ lệ Đậu / Rớt</h6>
+                </div>
+                <div class="card-body">
+                    <div class="chart-pie pt-4 pb-2"><canvas id="myPieChart"></canvas></div>
+                    <div class="mt-4 text-center small">
+                        <span class="mr-2"><i class="fas fa-circle text-success"></i> Đậu</span>
+                        <span class="mr-2"><i class="fas fa-circle text-danger"></i> Rớt</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-8 col-lg-7">
+            <div class="card shadow mb-4">
+                <div class="card-header py-3"><h6 class="m-0 font-weight-bold text-primary">Phân bố Học lực</h6></div>
+                <div class="card-body"><div class="chart-bar"><canvas id="myBarChartXepLoai"></canvas></div></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="card shadow mb-4">
+        <div class="card-header py-3"><h6 class="m-0 font-weight-bold text-primary">Dữ liệu chi tiết</h6></div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-bordered table-hover" id="dataTable" width="100%" cellspacing="0">
+                    <thead class="thead-light">
+                        <tr>
+                            <th>Mã SV</th>
+                            <th>Họ tên</th>
+                            <th>Môn học</th>
+                            <th class="text-center">Điểm TB</th>
+                            <th class="text-center">Xếp loại</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td class="font-weight-bold text-primary">@item.MaSv</td>
+                                <td>@item.MaSvNavigation?.HoTen</td>
+                                <td class="text-dark">@item.MaMhNavigation?.TenMh</td>
+                                <td class="text-center font-weight-bold @(item.DiemTb < 5 ? "text-danger" : "text-dark")">@item.DiemTb</td>
+                                <td class="text-center">
+                                    @if (item.DiemTb >= 8.5)
+                                    {
+                                        <span class="badge badge-pill-custom badge-success">Xuất sắc</span>
+                                    }
+                                    else if (item.DiemTb >= 7)
+                                    {
+                                        <span class="badge badge-pill-custom badge-primary">Khá/Giỏi</span>
+                                    }
+                                    else if (item.DiemTb >= 5)
+                                    {
+                                        <span class="badge badge-pill-custom badge-warning text-white">TB</span>
+                                    }
+                                    else
+                                    {
+                                        <span class="badge badge-pill-custom badge-danger">Yếu/Rớt</span>
+                                    }
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.min.js"></script>
+<script>
+    Chart.defaults.global.defaultFontFamily = 'Nunito, -apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif';
+    Chart.defaults.global.defaultFontColor = '#858796';
+
+    var dataDauRot = @Html.Raw(ViewBag.TyLeDauRot ?? "[0,0]");
+    var dataXepLoai = @Html.Raw(ViewBag.PhanBoXepLoai ?? "[0,0,0,0]");
+    var dataSoSanh = @Html.Raw(ViewBag.SoSanhData ?? "[]");
+
+    // 1. Comparison Chart (Sinh vien)
+    var ctxCompare = document.getElementById("myComparisonChart");
+    if (ctxCompare && dataSoSanh.length > 0) {
+        new Chart(ctxCompare, {
+            type: 'bar',
+            data: {
+                labels: ['Của bạn', 'TB Lớp', 'TB Khoa'],
+                datasets: [{
+                    label: "Điểm trung bình",
+                    backgroundColor: ['#4e73df', '#1cc88a', '#36b9cc'],
+                    hoverBackgroundColor: ['#2e59d9', '#17a673', '#2c9faf'],
+                    borderColor: "#4e73df", data: dataSoSanh, barPercentage: 0.6,
+                }],
+            },
+            options: {
+                maintainAspectRatio: false,
+                layout: { padding: { left: 10, right: 25, top: 25, bottom: 0 } },
+                scales: {
+                    xAxes: [{ gridLines: { display: false, drawBorder: false }, ticks: { maxTicksLimit: 6 } }],
+                    yAxes: [{ ticks: { min: 0, max: 10, maxTicksLimit: 5, padding: 10 }, gridLines: { color: "rgb(234, 236, 244)", zeroLineColor: "rgb(234, 236, 244)", drawBorder: false, borderDash: [2], zeroLineBorderDash: [2] } }],
+                },
+                legend: { display: false },
+            }
+        });
+    }
+
+    // 2. Pie Chart
+    var ctxPie = document.getElementById("myPieChart");
+    if(ctxPie) {
+        new Chart(ctxPie, {
+            type: 'doughnut',
+            data: {
+                labels: ["Đậu", "Rớt"],
+                datasets: [{
+                    data: dataDauRot,
+                    backgroundColor: ['#1cc88a', '#e74a3b'],
+                    hoverBackgroundColor: ['#17a673', '#c0392b'],
+                    hoverBorderColor: "rgba(234, 236, 244, 1)",
+                }],
+            },
+            options: {
+                maintainAspectRatio: false,
+                legend: { display: false },
+                cutoutPercentage: 80,
+            },
+        });
+    }
+
+    // 3. Bar Chart
+    var ctxBar = document.getElementById("myBarChartXepLoai");
+    if(ctxBar) {
+        new Chart(ctxBar, {
+            type: 'bar',
+            data: {
+                labels: ["Giỏi/XS", "Khá", "Trung Bình", "Yếu/Kém"],
+                datasets: [{
+                    label: "Số lượng",
+                    backgroundColor: "#4e73df",
+                    hoverBackgroundColor: "#2e59d9",
+                    borderColor: "#4e73df",
+                    data: dataXepLoai,
+                }],
+            },
+            options: {
+                maintainAspectRatio: false,
+                layout: { padding: { left: 10, right: 25, top: 25, bottom: 0 } },
+                scales: {
+                    xAxes: [{ gridLines: { display: false, drawBorder: false }, ticks: { maxTicksLimit: 6 } }],
+                    yAxes: [{ ticks: { min: 0, maxTicksLimit: 5, padding: 10 }, gridLines: { color: "rgb(234, 236, 244)", zeroLineColor: "rgb(234, 236, 244)", drawBorder: false, borderDash: [2], zeroLineBorderDash: [2] } }],
+                },
+                legend: { display: false },
+            }
+        });
+    }
+</script>

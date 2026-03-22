@@ -1,0 +1,58 @@
+﻿@model QUANLYSINHVIEN.Models.HocKy
+
+@{
+    ViewData["Title"] = "Xóa Học kỳ";
+}
+
+<div class="mb-6">
+    <h1 class="text-3xl font-bold text-gray-900">Xóa Học kỳ</h1>
+    <p class="text-red-600 font-semibold mt-2">Bạn có chắc chắn muốn xóa thông tin này?</p>
+</div>
+
+<div class="bg-white rounded-lg shadow-md p-6">
+    <div class="mb-6 p-4 bg-red-50 border-l-4 border-red-500 rounded">
+        <div class="flex items-center">
+            <i class="fa-solid fa-triangle-exclamation text-red-600 mr-2"></i>
+            <p class="text-red-700 font-semibold">Cảnh báo: Hành động này không thể hoàn tác!</p>
+        </div>
+    </div>
+
+    <dl class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+        <div class="border-b border-gray-200 pb-4">
+            <dt class="text-sm font-medium text-gray-500 mb-1">
+                @Html.DisplayNameFor(model => model.MaHk)
+            </dt>
+            <dd class="text-lg text-gray-900">
+                @Html.DisplayFor(model => model.MaHk)
+            </dd>
+        </div>
+        <div class="border-b border-gray-200 pb-4">
+            <dt class="text-sm font-medium text-gray-500 mb-1">
+                @Html.DisplayNameFor(model => model.TenHk)
+            </dt>
+            <dd class="text-lg font-semibold text-gray-900">
+                @Html.DisplayFor(model => model.TenHk)
+            </dd>
+        </div>
+        <div class="border-b border-gray-200 pb-4">
+            <dt class="text-sm font-medium text-gray-500 mb-1">
+                @Html.DisplayNameFor(model => model.NamHoc)
+            </dt>
+            <dd class="text-lg text-gray-900">
+                @Html.DisplayFor(model => model.NamHoc)
+            </dd>
+        </div>
+    </dl>
+    
+    <form asp-action="Delete" class="pt-6 border-t border-gray-200">
+        <input type="hidden" asp-for="MaHk" />
+        <div class="flex items-center space-x-4">
+            <button type="submit" class="inline-flex items-center px-6 py-3 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors shadow-md hover:shadow-lg">
+                <i class="fa-solid fa-trash mr-2"></i>Xác nhận xóa
+            </button>
+            <a asp-action="Index" class="inline-flex items-center px-6 py-3 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 transition-colors">
+                <i class="fa-solid fa-arrow-left mr-2"></i>Quay lại danh sách
+            </a>
+        </div>
+    </form>
+</div>

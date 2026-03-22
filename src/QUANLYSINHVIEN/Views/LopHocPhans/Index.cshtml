@@ -1,0 +1,88 @@
+﻿@using Microsoft.AspNetCore.Http
+@model IEnumerable<QUANLYSINHVIEN.Models.LopHocPhan>
+
+@{
+    ViewData["Title"] = "Quản lý Lớp Học phần";
+    var userRole = Context.Session.GetString("Role");
+}
+
+<div class="container mx-auto px-4 py-8">
+    <div class="flex flex-col md:flex-row justify-between items-center mb-6 gap-4">
+        <div>
+            <h1 class="text-3xl font-bold text-gray-800 flex items-center">
+                <i class="fa-solid fa-layer-group text-blue-600 mr-3"></i>
+                DANH SÁCH LỚP HỌC PHẦN
+            </h1>
+            <p class="text-gray-500 mt-1">Quản lý các lớp tín chỉ được mở trong học kỳ.</p>
+        </div>
+
+        @if (userRole == "Admin")
+        {
+            <a asp-action="Create" class="inline-flex items-center px-5 py-2.5 bg-blue-600 text-white font-medium rounded-lg hover:bg-blue-700 transition-all shadow-md transform hover:-translate-y-0.5">
+                <i class="fa-solid fa-plus mr-2"></i> Mở lớp mới
+            </a>
+        }
+    </div>
+
+    <div class="bg-white rounded-xl shadow-lg border border-gray-100 overflow-hidden">
+        <div class="overflow-x-auto">
+            <table class="min-w-full divide-y divide-gray-200">
+                <thead class="bg-gray-50">
+                    <tr>
+                        <th class="px-6 py-4 text-left text-xs font-bold text-gray-500 uppercase tracking-wider">Học Kỳ</th>
+                        <th class="px-6 py-4 text-left text-xs font-bold text-gray-500 uppercase tracking-wider">Môn Học</th>
+                        <th class="px-6 py-4 text-left text-xs font-bold text-gray-500 uppercase tracking-wider">Giảng Viên</th>
+                        <th class="px-6 py-4 text-center text-xs font-bold text-gray-500 uppercase tracking-wider">Sĩ Số</th>
+                        <th class="px-6 py-4 text-right text-xs font-bold text-gray-500 uppercase tracking-wider">Thao tác</th>
+                    </tr>
+                </thead>
+                <tbody class="bg-white divide-y divide-gray-200">
+                    @foreach (var item in Model)
+                    {
+                        <tr class="hover:bg-blue-50 transition-colors duration-150">
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 font-medium">
+                                <span class="bg-gray-100 text-gray-700 px-2 py-1 rounded text-xs border border-gray-200">
+                                    @Html.DisplayFor(modelItem => item.MaHkNavigation.MaHk)
+                                </span>
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800">
+                                <div class="font-semibold">@Html.DisplayFor(modelItem => item.MaMhNavigation.TenMh)</div>
+                                <div class="text-xs text-gray-500">@item.MaMh</div>
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-600">
+                                <i class="fa-solid fa-chalkboard-user mr-2 text-blue-400"></i>
+                                @Html.DisplayFor(modelItem => item.MaGvNavigation.HoTenGv)
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap text-center text-sm font-bold text-blue-600">
+                                @Html.DisplayFor(modelItem => item.SiSo)
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                                <a asp-action="Details" asp-route-id="@item.MaLhp" class="text-gray-600 hover:text-gray-900 mx-2" title="Xem chi tiết">
+                                    <i class="fa-solid fa-circle-info"></i>
+                                </a>
+
+                                @if (userRole == "Admin")
+                                {
+                                    <a asp-action="Edit" asp-route-id="@item.MaLhp" class="text-indigo-600 hover:text-indigo-900 mx-2" title="Sửa">
+                                        <i class="fa-solid fa-pen-to-square"></i>
+                                    </a>
+                                    <a asp-action="Delete" asp-route-id="@item.MaLhp" class="text-red-600 hover:text-red-900 mx-2" title="Xóa">
+                                        <i class="fa-solid fa-trash-can"></i>
+                                    </a>
+                                }
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+
+        @if (!Model.Any())
+        {
+            <div class="flex flex-col items-center justify-center py-12 text-gray-500">
+                <i class="fa-regular fa-folder-open text-5xl mb-4 text-gray-300"></i>
+                <p class="text-lg font-medium">Chưa có lớp học phần nào.</p>
+            </div>
+        }
+    </div>
+</div>

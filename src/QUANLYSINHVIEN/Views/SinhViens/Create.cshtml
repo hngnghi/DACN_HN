@@ -1,0 +1,82 @@
+﻿@model QUANLYSINHVIEN.Models.SinhVien
+
+@{
+    ViewData["Title"] = "Tạo mới Sinh viên";
+}
+
+<div class="mb-6">
+    <h1 class="text-3xl font-bold text-gray-900">Tạo mới Sinh viên</h1>
+    <p class="text-gray-600 mt-2">Thêm thông tin sinh viên mới vào hệ thống</p>
+</div>
+
+<div class="bg-white rounded-lg shadow-md p-6">
+    <form asp-action="Create" class="space-y-6">
+        <div asp-validation-summary="ModelOnly" class="text-red-600 bg-red-50 border border-red-200 rounded-lg p-4"></div>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div>
+                <label asp-for="MaSv" class="block text-sm font-medium text-gray-700 mb-2"></label>
+                <input asp-for="MaSv" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors" />
+                <span asp-validation-for="MaSv" class="text-red-600 text-sm"></span>
+            </div>
+            <div>
+                <label asp-for="HoTen" class="block text-sm font-medium text-gray-700 mb-2"></label>
+                <input asp-for="HoTen" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors" />
+                <span asp-validation-for="HoTen" class="text-red-600 text-sm"></span>
+            </div>
+            <div>
+                <label asp-for="NgaySinh" class="block text-sm font-medium text-gray-700 mb-2"></label>
+                <input asp-for="NgaySinh" type="date" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors" />
+                <span asp-validation-for="NgaySinh" class="text-red-600 text-sm"></span>
+            </div>
+            <div>
+                <label asp-for="GioiTinh" class="block text-sm font-medium text-gray-700 mb-2"></label>
+                <select asp-for="GioiTinh" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors">
+                    <option value="">-- Chọn giới tính --</option>
+                    <option value="Nam">Nam</option>
+                    <option value="Nữ">Nữ</option>
+                </select>
+                <span asp-validation-for="GioiTinh" class="text-red-600 text-sm"></span>
+            </div>
+            <div>
+                <label asp-for="DiaChi" class="block text-sm font-medium text-gray-700 mb-2"></label>
+                <input asp-for="DiaChi" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors" />
+                <span asp-validation-for="DiaChi" class="text-red-600 text-sm"></span>
+            </div>
+            <div>
+                <label asp-for="Email" class="block text-sm font-medium text-gray-700 mb-2"></label>
+                <input asp-for="Email" type="email" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors" />
+                <span asp-validation-for="Email" class="text-red-600 text-sm"></span>
+            </div>
+            <div>
+                <label asp-for="MaLop" class="block text-sm font-medium text-gray-700 mb-2"></label>
+                <select asp-for="MaLop" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors" asp-items="ViewBag.MaLop">
+                    <option value="">-- Chọn lớp --</option>
+                </select>
+            </div>
+            <div>
+                <label asp-for="TrangThaiHocTap" class="block text-sm font-medium text-gray-700 mb-2"></label>
+                <select asp-for="TrangThaiHocTap" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors">
+                    <option value="">-- Chọn trạng thái --</option>
+                    <option value="Đang học">Đang học</option>
+                    <option value="Tốt nghiệp">Tốt nghiệp</option>
+                    <option value="Thôi học">Thôi học</option>
+                </select>
+                <span asp-validation-for="TrangThaiHocTap" class="text-red-600 text-sm"></span>
+            </div>
+        </div>
+
+        <div class="flex items-center space-x-4 pt-4 border-t border-gray-200">
+            <button type="submit" class="inline-flex items-center px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors shadow-md hover:shadow-lg">
+                <i class="fa-solid fa-save mr-2"></i>Tạo mới
+            </button>
+            <a asp-action="Index" class="inline-flex items-center px-6 py-3 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 transition-colors">
+                <i class="fa-solid fa-arrow-left mr-2"></i>Quay lại danh sách
+            </a>
+        </div>
+    </form>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

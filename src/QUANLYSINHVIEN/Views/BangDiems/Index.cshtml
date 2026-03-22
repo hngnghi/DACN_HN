@@ -1,0 +1,112 @@
+﻿@using Microsoft.AspNetCore.Http
+@model IEnumerable<QUANLYSINHVIEN.Models.BangDiem>
+
+@{
+    ViewData["Title"] = "Bảng Điểm";
+    var userRole = Context.Session.GetString("Role");
+}
+
+<div class="container mx-auto px-4 py-8">
+    <div class="flex flex-col md:flex-row justify-between items-center mb-6 gap-4">
+        <div>
+            <h1 class="text-3xl font-bold text-gray-800 flex items-center">
+                <i class="fa-solid fa-graduation-cap text-blue-600 mr-3"></i>
+                @(userRole == "SinhVien" ? "KẾT QUẢ HỌC TẬP CÁ NHÂN" : "QUẢN LÝ BẢNG ĐIỂM")
+            </h1>
+        </div>
+
+        @if (userRole != "SinhVien")
+        {
+            <a asp-action="Create" class="inline-flex items-center px-5 py-2.5 bg-blue-600 text-white font-medium rounded-lg hover:bg-blue-700 transition-all shadow-lg transform hover:-translate-y-0.5">
+                <i class="fa-solid fa-plus mr-2"></i> Nhập điểm mới
+            </a>
+        }
+    </div>
+
+    <div class="bg-white rounded-xl shadow-lg border border-gray-100 overflow-hidden">
+        <div class="overflow-x-auto">
+            <table class="min-w-full divide-y divide-gray-200">
+                <thead class="bg-gray-50">
+                    <tr>
+                        <th class="px-6 py-4 text-left text-xs font-bold text-gray-500 uppercase tracking-wider">Học Kỳ</th>
+                        <th class="px-6 py-4 text-left text-xs font-bold text-gray-500 uppercase tracking-wider">Môn Học</th>
+
+                        @if (userRole != "SinhVien")
+                        {
+                            <th class="px-6 py-4 text-left text-xs font-bold text-gray-500 uppercase tracking-wider">Sinh Viên</th>
+                        }
+
+                        <th class="px-6 py-4 text-center text-xs font-bold text-gray-500 uppercase tracking-wider">QT</th>
+                        <th class="px-6 py-4 text-center text-xs font-bold text-gray-500 uppercase tracking-wider">Thi</th>
+                        <th class="px-6 py-4 text-center text-xs font-bold text-gray-500 uppercase tracking-wider">TB</th>
+                        <th class="px-6 py-4 text-center text-xs font-bold text-gray-500 uppercase tracking-wider">Xếp Loại</th>
+
+                        @if (userRole != "SinhVien")
+                        {
+                            <th class="px-6 py-4 text-right text-xs font-bold text-gray-500 uppercase tracking-wider">Thao tác</th>
+                        }
+                    </tr>
+                </thead>
+                <tbody class="bg-white divide-y divide-gray-200">
+                    @foreach (var item in Model)
+                    {
+                        <tr class="hover:bg-blue-50 transition-colors duration-150">
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 font-medium">
+                                <span class="bg-gray-100 text-gray-700 px-2 py-1 rounded text-xs border border-gray-200">
+                                    @Html.DisplayFor(modelItem => item.MaHkNavigation.MaHk)
+                                </span>
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800">
+                                <div class="font-semibold">@Html.DisplayFor(modelItem => item.MaMhNavigation.TenMh)</div>
+                                <div class="text-xs text-gray-500">@item.MaMh</div>
+                            </td>
+
+                            @if (userRole != "SinhVien")
+                            {
+                                <td class="px-6 py-4 whitespace-nowrap text-sm">
+                                    <div class="flex items-center">
+                                        <div class="h-8 w-8 rounded-full bg-blue-100 flex items-center justify-center text-blue-600 font-bold text-xs mr-3">
+                                            @item.MaSv.Substring(Math.Max(0, item.MaSv.Length - 2))
+                                        </div>
+                                        <div>
+                                            <div class="font-medium text-gray-900">@item.MaSvNavigation.HoTen</div>
+                                            <div class="text-xs text-gray-500">@item.MaSv</div>
+                                        </div>
+                                    </div>
+                                </td>
+                            }
+
+                            <td class="px-6 py-4 whitespace-nowrap text-center text-sm text-gray-600">@item.DiemQt</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-center text-sm text-gray-600">@item.DiemThi</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-center">
+                                <span class="inline-flex items-center justify-center h-8 w-8 rounded-full font-bold text-sm bg-blue-100 text-blue-700">
+                                    @item.DiemTb
+                                </span>
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap text-center">
+                                <span class="px-3 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-gray-100 text-gray-800">
+                                    @item.XepLoai
+                                </span>
+                            </td>
+
+                            @if (userRole != "SinhVien")
+                            {
+                                <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                                    <a asp-action="Edit" asp-route-id="@item.MaBd" class="text-indigo-600 hover:text-indigo-900 mx-2"><i class="fa-solid fa-pen"></i></a>
+                                    <a asp-action="Delete" asp-route-id="@item.MaBd" class="text-red-600 hover:text-red-900 mx-2"><i class="fa-solid fa-trash"></i></a>
+                                </td>
+                            }
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+
+        @if (!Model.Any())
+        {
+            <div class="flex flex-col items-center justify-center py-12 text-gray-500">
+                <p class="text-lg font-medium">Chưa có dữ liệu điểm.</p>
+            </div>
+        }
+    </div>
+</div>

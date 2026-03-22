@@ -1,0 +1,153 @@
+﻿@using Microsoft.AspNetCore.Http
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - QUANLYSINHVIEN</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
+    <style>
+        [x-cloak] {
+            display: none !important;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 min-h-screen flex flex-col">
+    <header class="bg-white shadow-md">
+        <nav class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex items-center">
+                    <a class="flex items-center space-x-2 text-blue-600 font-bold text-xl hover:text-blue-700 transition-colors" asp-area="" asp-controller="Home" asp-action="Index">
+                        <i class="fa-solid fa-graduation-cap"></i>
+                        <span>QL SINH VIÊN</span>
+                    </a>
+                </div>
+
+                <div class="hidden md:flex items-center space-x-1 flex-1 justify-center">
+                    @if (Context.Session.GetString("UserName") == null)
+                    {
+                        @* --- TRƯỜNG HỢP 1: CHƯA ĐĂNG NHẬP --- *@
+                        <a class="px-4 py-2 text-gray-700 hover:text-blue-600 hover:bg-gray-100 rounded-md transition-colors" asp-area="" asp-controller="Home" asp-action="Index">Trang chủ</a>
+                        <div class="ml-auto">
+                            <a class="inline-flex items-center px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors shadow-sm" asp-controller="TaiKhoans" asp-action="Login">
+                                <i class="fa-solid fa-right-to-bracket mr-2"></i> Đăng nhập
+                            </a>
+                        </div>
+                    }
+                    else
+                    {
+                        @* --- TRƯỜNG HỢP 2: ĐÃ ĐĂNG NHẬP (HIỆN FULL MENU) --- *@
+                        <a class="px-4 py-2 text-gray-700 hover:text-blue-600 hover:bg-gray-100 rounded-md transition-colors" asp-area="" asp-controller="Home" asp-action="Index">Trang chủ</a>
+
+                        <div class="relative group" x-data="{ open: false }">
+                            <button @@click="open = !open" class="px-4 py-2 text-gray-700 hover:text-blue-600 hover:bg-gray-100 rounded-md transition-colors flex items-center">
+                                Quản lý Đào tạo
+                                <i class="fa-solid fa-chevron-down ml-1 text-xs"></i>
+                            </button>
+                            <div x-show="open" @@click.away="open = false" x-cloak class="absolute left-0 mt-2 w-56 bg-white rounded-md shadow-lg py-1 z-50 border border-gray-200">
+                                <a class="block px-4 py-2 text-gray-700 hover:bg-blue-50 hover:text-blue-600 transition-colors" asp-controller="Khoas" asp-action="Index">Quản lý Khoa</a>
+                                <a class="block px-4 py-2 text-gray-700 hover:bg-blue-50 hover:text-blue-600 transition-colors" asp-controller="Lops" asp-action="Index">Quản lý Lớp Hành chính</a>
+                                <a class="block px-4 py-2 text-gray-700 hover:bg-blue-50 hover:text-blue-600 transition-colors" asp-controller="SinhViens" asp-action="Index">Quản lý Sinh viên</a>
+                                <div class="border-t border-gray-200 my-1"></div>
+                                <a class="block px-4 py-2 text-gray-700 hover:bg-blue-50 hover:text-blue-600 transition-colors" asp-controller="GiangViens" asp-action="Index">Quản lý Giảng viên</a>
+                                <a class="block px-4 py-2 text-gray-700 hover:bg-blue-50 hover:text-blue-600 transition-colors" asp-controller="MonHocs" asp-action="Index">Quản lý Môn học</a>
+                                <a class="block px-4 py-2 text-gray-700 hover:bg-blue-50 hover:text-blue-600 transition-colors" asp-controller="HocKies" asp-action="Index">Quản lý Học kỳ</a>
+                            </div>
+                        </div>
+
+                        <div class="relative group" x-data="{ open: false }">
+                            <button @@click="open = !open" class="px-4 py-2 text-gray-700 hover:text-blue-600 hover:bg-gray-100 rounded-md transition-colors flex items-center">
+                                Học tập & Điểm
+                                <i class="fa-solid fa-chevron-down ml-1 text-xs"></i>
+                            </button>
+                            <div x-show="open" @@click.away="open = false" x-cloak class="absolute left-0 mt-2 w-56 bg-white rounded-md shadow-lg py-1 z-50 border border-gray-200">
+                                <a class="block px-4 py-2 text-gray-700 hover:bg-blue-50 hover:text-blue-600 transition-colors" asp-controller="LopHocPhans" asp-action="Index">Lớp Học phần (Tín chỉ)</a>
+                                <a class="block px-4 py-2 text-gray-700 hover:bg-blue-50 hover:text-blue-600 transition-colors" asp-controller="BangDiems" asp-action="Index">Nhập & Xem Điểm</a>
+                            </div>
+                        </div>
+
+                        <div class="relative group" x-data="{ open: false }">
+                            <button @@click="open = !open" class="px-4 py-2 text-gray-700 hover:text-blue-600 hover:bg-gray-100 rounded-md transition-colors flex items-center">
+                                Phân tích (BI & AI)
+                                <i class="fa-solid fa-chevron-down ml-1 text-xs"></i>
+                            </button>
+                            <div x-show="open" @@click.away="open = false" x-cloak class="absolute left-0 mt-2 w-56 bg-white rounded-md shadow-lg py-1 z-50 border border-gray-200">
+                                <a class="block px-4 py-2 text-gray-700 hover:bg-blue-50 hover:text-blue-600 transition-colors" asp-controller="ThongKeBis" asp-action="Index">Dashboard BI</a>
+                                <a class="block px-4 py-2 text-gray-700 hover:bg-blue-50 hover:text-blue-600 transition-colors" asp-controller="DuBaoKetQuas" asp-action="Index">Dự báo Kết quả (AI)</a>
+                            </div>
+                        </div>
+
+                        <div class="ml-auto relative" x-data="{ open: false }">
+                            <button @@click="open = !open" class="flex items-center px-4 py-2 text-blue-600 font-semibold hover:bg-gray-100 rounded-md transition-colors">
+                                <i class="fa-solid fa-user-circle mr-2"></i>
+                                <span>Xin chào, @Context.Session.GetString("UserName")</span>
+                                <i class="fa-solid fa-chevron-down ml-2 text-xs"></i>
+                            </button>
+                            <div x-show="open" @@click.away="open = false" x-cloak class="absolute right-0 mt-2 w-56 bg-white rounded-md shadow-lg py-1 z-50 border border-gray-200">
+                                <a class="block px-4 py-2 text-gray-700 hover:bg-blue-50 hover:text-blue-600 transition-colors" asp-controller="TaiKhoans" asp-action="Profile">Thông tin cá nhân</a>
+                               
+                                <div class="border-t border-gray-200 my-1"></div>
+                                <a class="block px-4 py-2 text-red-600 font-semibold hover:bg-red-50 transition-colors" asp-controller="TaiKhoans" asp-action="Logout">
+                                    <i class="fa-solid fa-sign-out-alt mr-2"></i> Đăng xuất
+                                </a>
+                            </div>
+                        </div>
+                    }
+                </div>
+
+                @* Mobile menu button *@
+                <div class="md:hidden" x-data="{ open: false }">
+                    <button @@click="open = !open" class="p-2 rounded-md text-gray-700 hover:bg-gray-100">
+                        <i class="fa-solid fa-bars" x-show="!open"></i>
+                        <i class="fa-solid fa-times" x-show="open" x-cloak></i>
+                    </button>
+                    <div x-show="open" @@click.away="open = false" x-cloak class="absolute top-16 left-0 right-0 bg-white shadow-lg border-t border-gray-200 py-4">
+                        @if (Context.Session.GetString("UserName") == null)
+                        {
+                            <a class="block px-4 py-2 text-gray-700 hover:bg-gray-100" asp-area="" asp-controller="Home" asp-action="Index">Trang chủ</a>
+                            <a class="block px-4 py-2 text-blue-600 font-semibold" asp-controller="TaiKhoans" asp-action="Login">Đăng nhập</a>
+                        }
+                        else
+                        {
+                            <a class="block px-4 py-2 text-gray-700 hover:bg-gray-100" asp-area="" asp-controller="Home" asp-action="Index">Trang chủ</a>
+                            <div class="px-4 py-2 text-gray-500 text-sm font-semibold">Quản lý Đào tạo</div>
+                            <a class="block px-8 py-2 text-gray-700 hover:bg-gray-100" asp-controller="Khoas" asp-action="Index">Quản lý Khoa</a>
+                            <a class="block px-8 py-2 text-gray-700 hover:bg-gray-100" asp-controller="Lops" asp-action="Index">Quản lý Lớp Hành chính</a>
+                            <a class="block px-8 py-2 text-gray-700 hover:bg-gray-100" asp-controller="SinhViens" asp-action="Index">Quản lý Sinh viên</a>
+                            <a class="block px-8 py-2 text-gray-700 hover:bg-gray-100" asp-controller="GiangViens" asp-action="Index">Quản lý Giảng viên</a>
+                            <a class="block px-8 py-2 text-gray-700 hover:bg-gray-100" asp-controller="MonHocs" asp-action="Index">Quản lý Môn học</a>
+                            <a class="block px-8 py-2 text-gray-700 hover:bg-gray-100" asp-controller="HocKies" asp-action="Index">Quản lý Học kỳ</a>
+                            <div class="px-4 py-2 text-gray-500 text-sm font-semibold">Học tập & Điểm</div>
+                            <a class="block px-8 py-2 text-gray-700 hover:bg-gray-100" asp-controller="LopHocPhans" asp-action="Index">Lớp Học phần (Tín chỉ)</a>
+                            <a class="block px-8 py-2 text-gray-700 hover:bg-gray-100" asp-controller="BangDiems" asp-action="Index">Nhập & Xem Điểm</a>
+                            <div class="px-4 py-2 text-gray-500 text-sm font-semibold">Phân tích (BI & AI)</div>
+                            <a class="block px-8 py-2 text-gray-700 hover:bg-gray-100" asp-controller="ThongKeBis" asp-action="Index">Dashboard BI</a>
+                            <a class="block px-8 py-2 text-gray-700 hover:bg-gray-100" asp-controller="DuBaoKetQuas" asp-action="Index">Dự báo Kết quả (AI)</a>
+                            <div class="border-t border-gray-200 my-2"></div>
+                            <a class="block px-4 py-2 text-red-600 font-semibold" asp-controller="TaiKhoans" asp-action="Logout">Đăng xuất</a>
+                        }
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main class="flex-1 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 w-full">
+        @RenderBody()
+    </main>
+
+    <footer class="bg-white border-t border-gray-200 mt-auto">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+            <div class="text-center text-gray-600 text-sm">
+                &copy; 2025 - QUANLYSINHVIEN - <a asp-area="" asp-controller="Home" asp-action="Privacy" class="text-blue-600 hover:text-blue-700">Privacy</a>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>
