@@ -34,7 +34,7 @@ Giải quyết bài toán trong việc quản lý hàng ngàn sinh viên của c
 | *Insight Cards & Phân tích phổ điểm* | *Xu hướng GPA & Trợ lý ảo AI dự báo* |
 
 ### 🎥 Video Demo Hệ Thống
-[![Xem Video Demo](https://drive.google.com/drive/folders/16JkoV5VsBLSImZbM3qEbnMX5_mlBlJIT?usp=drive_link)
+[![Xem Video Demo](https://img.shields.io/badge/Google_Drive-Xem_Video_Demo-1FA463?style=for-the-badge&logo=google-drive&logoColor=white)](https://drive.google.com/file/d/1du9dQ-9JkI-BDT5Vzov_EFyCAnVgLp0E/view?usp=sharing)
 
 ## 🚀 Hướng dẫn cài đặt (Getting Started)
 
